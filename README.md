@@ -66,7 +66,7 @@ cd CDN_Libraries_Checker
 
 4. Access the application through your web browser:
 ```
-http://localhost/cdn-checker
+http://localhost/CDN_Libraries_Checker
 ```
 
 ## 💻 Usage
