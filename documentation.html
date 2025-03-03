@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Library Manager - Documentation</title>
+    <meta name="description" content="Documentation and user guide for the CDN Library Manager tool">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    
+    <!-- External Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <style>
+        .doc-section {
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFade 0.6s ease forwards;
+        }
+
+        .doc-section:nth-child(1) { animation-delay: 0.1s; }
+        .doc-section:nth-child(2) { animation-delay: 0.2s; }
+        .doc-section:nth-child(3) { animation-delay: 0.3s; }
+        .doc-section:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUpFade {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .step-item {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: #3b82f6;
+            opacity: 0.2;
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover::before {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0.4rem;
+            top: 0.1rem;
+            color: #1d4ed8;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div class="main-container min-h-screen">
+        <div class="content-wrapper max-w-4xl mx-auto px-4">
+            <!-- Header Section -->
+            <header class="glass-effect sticky top-0 z-50 px-6 py-4 mb-8 text-center fade-in flex items-center justify-between rounded-lg">
+                <div class="flex items-center gap-3">
+                    <i class="ri-book-read-line text-blue-600 text-2xl"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Documentation</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
+                        <i class="ri-arrow-left-line"></i>
+                        Back to App
+                    </a>
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i id="sunIcon" class="ri-sun-line text-xl text-yellow-500"></i>
+                        <i id="moonIcon" class="ri-moon-line text-xl text-blue-400 hidden"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Quick Navigation -->
+            <nav class="mb-8 fade-in">
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="#getting-started" class="px-4 py-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors dark:bg-blue-900 dark:text-blue-300">
+                        <i class="ri-guide-line mr-1"></i> Getting Started
+                    </a>
+                    <a href="#url-validator" class="px-4 py-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition-colors dark:bg-green-900 dark:text-green-300">
+                        <i class="ri-check-double-line mr-1"></i> URL Validator
+                    </a>
+                    <a href="#file-processor" class="px-4 py-2 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors dark:bg-purple-900 dark:text-purple-300">
+                        <i class="ri-file-list-3-line mr-1"></i> File Processor
+                    </a>
+                    <a href="#settings" class="px-4 py-2 rounded-full bg-orange-100 text-orange-700 hover:bg-orange-200 transition-colors dark:bg-orange-900 dark:text-orange-300">
+                        <i class="ri-settings-3-line mr-1"></i> Settings
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="space-y-12">
+                <!-- Getting Started Section -->
+                <section id="getting-started" class="doc-section">
+                    <div class="card p-8 feature-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <i class="ri-guide-line text-blue-600"></i>
+                            <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                Getting Started
+                            </span>
+                        </h2>
+                        <p class="text-lg text-gray-800 dark:text-gray-300 mb-6 leading-relaxed">
+                            Welcome to the CDN Library Manager! This tool helps you validate, manage, and update your CDN dependencies with ease. Here's a quick overview of what you can do:
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/30">
+                                <h3 class="font-semibold text-blue-800 dark:text-blue-300 mb-2">
+                                    <i class="ri-check-line mr-2"></i>Validate URLs
+                                </h3>
+                                <p class="text-gray-800 dark:text-gray-400">Check accessibility, CORS support, and content types</p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-green-50 dark:bg-green-900/30">
+                                <h3 class="font-semibold text-green-800 dark:text-green-300 mb-2">
+                                    <i class="ri-refresh-line mr-2"></i>Update Libraries
+                                </h3>
+                                <p class="text-gray-800 dark:text-gray-400">Find and update to the latest versions</p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-purple-50 dark:bg-purple-900/30">
+                                <h3 class="font-semibold text-purple-800 dark:text-purple-300 mb-2">
+                                    <i class="ri-file-list-3-line mr-2"></i>Process Files
+                                </h3>
+                                <p class="text-gray-800 dark:text-gray-400">Scan and update CDNs in your files</p>
+                            </div>
+                            <div class="p-4 rounded-lg bg-orange-50 dark:bg-orange-900/30">
+                                <h3 class="font-semibold text-orange-800 dark:text-orange-300 mb-2">
+                                    <i class="ri-settings-3-line mr-2"></i>Customize
+                                </h3>
+                                <p class="text-gray-800 dark:text-gray-400">Configure validation options and preferences</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- URL Validator Section -->
+                <section id="url-validator" class="doc-section">
+                    <div class="card p-8 feature-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <i class="ri-check-double-line text-green-500"></i>
+                            <span class="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
+                                URL Validator
+                            </span>
+                        </h2>
+                        <div class="space-y-6">
+                            <div class="step-item">
+                                <span class="step-number">1</span>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Navigate to URL Validator</h4>
+                                <p class="text-gray-800 dark:text-gray-400">Click the "URL Validator" tab in the main navigation</p>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">2</span>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Enter Your URLs</h4>
+                                <p class="text-gray-800 dark:text-gray-400">Paste your CDN URLs in any format:</p>
+                                <ul class="mt-2 space-y-2 text-gray-800 dark:text-gray-400">
+                                    <li class="flex items-center gap-2">
+                                        <i class="ri-code-line text-blue-500"></i>
+                                        Full HTML script tags
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="ri-link-m text-blue-500"></i>
+                                        Direct URLs
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="ri-list-check text-blue-500"></i>
+                                        Multiple URLs (one per line)
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">3</span>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Validate</h4>
+                                <p class="text-gray-800 dark:text-gray-400">Click "Validate URLs" to check:</p>
+                                <div class="grid md:grid-cols-2 gap-4 mt-3">
+                                    <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center gap-2">
+                                        <i class="ri-global-line text-blue-500"></i>
+                                        <span class="text-gray-900 dark:text-gray-100">Accessibility</span>
+                                    </div>
+                                    <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center gap-2">
+                                        <i class="ri-shield-check-line text-green-500"></i>
+                                        <span class="text-gray-900 dark:text-gray-100">CORS Support</span>
+                                    </div>
+                                    <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center gap-2">
+                                        <i class="ri-file-type-line text-purple-500"></i>
+                                        <span class="text-gray-900 dark:text-gray-100">Content Type</span>
+                                    </div>
+                                    <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center gap-2">
+                                        <i class="ri-lock-line text-orange-500"></i>
+                                        <span class="text-gray-900 dark:text-gray-100">SSL Certificate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- File Processor Section -->
+                <section id="file-processor" class="doc-section">
+                    <div class="card p-8 feature-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <i class="ri-file-list-3-line text-purple-500"></i>
+                            <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                File Processor
+                            </span>
+                        </h2>
+                        <div class="space-y-6">
+                            <div class="step-item">
+                                <span class="step-number">1</span>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Upload Files</h4>
+                                <p class="text-gray-800 dark:text-gray-400">
+                                    Drag and drop your files or click to select. Supported formats:
+                                </p>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-900 rounded dark:bg-blue-900 dark:text-blue-300">.html</span>
+                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-900 rounded dark:bg-yellow-900 dark:text-yellow-300">.js</span>
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-900 rounded dark:bg-purple-900 dark:text-purple-300">.php</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-900 rounded dark:bg-green-900 dark:text-green-300">.jsx</span>
+                                    <span class="px-2 py-1 bg-pink-100 text-pink-900 rounded dark:bg-pink-900 dark:text-pink-300">.vue</span>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">2</span>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Process Files</h4>
+                                <p class="text-gray-800 dark:text-gray-400">Click "Process & Update Files" to:</p>
+                                <ul class="mt-2 space-y-2 text-gray-800 dark:text-gray-400">
+                                    <li class="flex items-center gap-2">
+                                        <i class="ri-search-line text-blue-500"></i>
+                                        Extract CDN URLs automatically
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="ri-refresh-line text-green-500"></i>
+                                        Check for available updates
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="ri-download-cloud-line text-purple-500"></i>
+                                        Download updated versions
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="doc-section">
+                    <div class="card p-8 feature-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <i class="ri-settings-3-line text-orange-500"></i>
+                            <span class="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                                Settings & Options
+                            </span>
+                        </h2>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Validation Settings</h3>
+                                <ul class="space-y-3 text-gray-800 dark:text-gray-400">
+                                    <li class="flex items-center gap-3">
+                                        <i class="ri-shield-check-line text-green-500"></i>
+                                        <span>CORS Accessibility Check</span>
+                                    </li>
+                                    <li class="flex items-center gap-3">
+                                        <i class="ri-file-type-line text-blue-500"></i>
+                                        <span>Content Type Verification</span>
+                                    </li>
+                                    <li class="flex items-center gap-3">
+                                        <i class="ri-lock-line text-purple-500"></i>
+                                        <span>SSL Certificate Validation</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Performance Settings</h3>
+                                <ul class="space-y-3 text-gray-800 dark:text-gray-400">
+                                    <li class="flex items-center gap-3">
+                                        <i class="ri-timer-line text-orange-500"></i>
+                                        <span>Response Time Measurement</span>
+                                    </li>
+                                    <li class="flex items-center gap-3">
+                                        <i class="ri-time-line text-red-500"></i>
+                                        <span>Request Timeout Duration</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-12 mb-8 text-center text-gray-800 dark:text-gray-400 fade-in">
+                <p class="flex items-center justify-center gap-2">
+                    <i class="ri-shield-check-line text-green-500"></i>
+                    Need more help? Check our documentation for detailed guides
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Custom Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

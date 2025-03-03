@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Library URL Validator</title>
+    <meta name="description" content="A powerful tool to validate CDN library URLs, check CORS, and verify content types">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+    
+    <!-- External Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="content-wrapper max-w-7xl mx-auto">
+            <!-- Header Section -->
+            <header class="glass-effect sticky top-0 z-50 px-6 py-3 mb-4 text-center fade-in flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="ri-links-line text-blue-600 text-2xl"></i>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">CDN Library Manager</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="documentation.html" class="flex items-center gap-2 text-blue-600 hover:text-blue-700">
+                        <i class="ri-book-read-line"></i>
+                        Documentation
+                    </a>
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i id="sunIcon" class="ri-sun-line text-xl text-yellow-500"></i>
+                        <i id="moonIcon" class="ri-moon-line text-xl text-blue-400 hidden"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="h-[calc(100vh-8rem)] grid grid-rows-[auto,1fr] gap-4">
+                <!-- Tabs Navigation -->
+                <nav class="flex gap-2 border-b border-gray-200">
+                    <button 
+                        class="tab-button active px-4 py-2 text-blue-600 border-b-2 border-blue-600 font-medium"
+                        data-tab="validator"
+                    >
+                        <i class="ri-check-double-line"></i> URL Validator
+                    </button>
+                    <button 
+                        class="tab-button px-4 py-2 text-gray-500 hover:text-gray-700 font-medium"
+                        data-tab="file-processor"
+                    >
+                        <i class="ri-file-list-3-line"></i> File Processor
+                    </button>
+                    <button 
+                        class="tab-button px-4 py-2 text-gray-500 hover:text-gray-700 font-medium"
+                        data-tab="settings"
+                    >
+                        <i class="ri-settings-3-line"></i> Settings
+                    </button>
+                </nav>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- URL Validator Tab -->
+                    <div class="tab-pane active" id="validator">
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Input Section -->
+                            <section class="card p-6 fade-in">
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 font-semibold mb-2 flex items-center" for="urlInput">
+                                        <i class="ri-link-m text-blue-500 mr-2"></i>
+                                        Enter CDN URLs
+                                    </label>
+                                    <div class="relative">
+                                        <textarea 
+                                            id="urlInput" 
+                                            rows="10" 
+                                            class="custom-input w-full p-4 rounded-lg font-mono text-sm"
+                                            placeholder="Paste CDN library URLs here:
+• Full HTML script tags
+• Direct URLs
+• Mixed content
+
+Example:
+<script src='https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js'></script>
+https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+                                        ></textarea>
+                                    </div>
+                                    <div class="mt-2 text-sm text-gray-600 flex items-center">
+                                        <i class="ri-information-line text-blue-500 mr-2"></i>
+                                        Supports multiple input formats
+                                    </div>
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div class="flex flex-wrap gap-3 mb-6">
+                                    <button 
+                                        id="validateButton"
+                                        class="primary-button flex items-center gap-2"
+                                    >
+                                        <i class="ri-check-double-line"></i>
+                                        Validate URLs
+                                    </button>
+                                    <button 
+                                        id="checkAllBtn" 
+                                        class="secondary-button flex items-center gap-2"
+                                    >
+                                        <i class="ri-refresh-line"></i>
+                                        Check & Update All
+                                    </button>
+                                    <button 
+                                        id="clearButton"
+                                        class="outline-button flex items-center gap-2"
+                                    >
+                                        <i class="ri-delete-bin-line"></i>
+                                        Clear All
+                                    </button>
+                                </div>
+
+                                <!-- Export Options -->
+                                <div class="flex flex-wrap gap-3">
+                                    <button id="exportJson" class="text-sm text-gray-600 hover:text-blue-600 flex items-center gap-1">
+                                        <i class="ri-file-code-line"></i> Export JSON
+                                    </button>
+                                    <button id="exportCsv" class="text-sm text-gray-600 hover:text-blue-600 flex items-center gap-1">
+                                        <i class="ri-file-excel-line"></i> Export CSV
+                                    </button>
+                                    <button id="copyAll" class="text-sm text-gray-600 hover:text-blue-600 flex items-center gap-1">
+                                        <i class="ri-clipboard-line"></i> Copy All
+                                    </button>
+                                </div>
+                            </section>
+
+                            <!-- Results Section -->
+                            <section class="card p-6 fade-in">
+                                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="ri-list-check text-green-500 mr-2"></i>
+                                    Validation Results
+                                </h2>
+                                <div id="resultsContainer" class="space-y-4 min-h-[200px] max-h-[600px] overflow-y-auto">
+                                    <div class="text-center text-gray-500 mt-8">
+                                        <i class="ri-inbox-line text-4xl mb-2 block"></i>
+                                        No results yet. Start by validating some URLs!
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- File Processor Tab -->
+                    <div class="tab-pane" id="file-processor">
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Upload Section -->
+                            <section class="card p-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                                    <i class="ri-upload-cloud-2-line text-blue-500 mr-2"></i>
+                                    Upload Files
+                                </h3>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
+                                    <label for="fileUpload" class="cursor-pointer block">
+                                        <i class="ri-upload-cloud-2-line text-4xl text-blue-500 mb-4"></i>
+                                        <div class="text-lg font-medium text-gray-700">Drop files here or click to upload</div>
+                                        <div class="text-sm text-gray-500 mt-1">Supports HTML, JS, PHP, and other text files</div>
+                                        <input 
+                                            type="file" 
+                                            id="fileUpload" 
+                                            accept=".html,.js,.php,.txt,.jsx,.tsx,.vue,.svelte" 
+                                            multiple 
+                                            class="hidden" 
+                                        />
+                                    </label>
+                                </div>
+
+                                <!-- File List -->
+                                <div id="fileList" class="mt-6 space-y-3"></div>
+
+                                <!-- Process Button -->
+                                <button 
+                                    id="processFilesBtn"
+                                    class="primary-button w-full mt-6 flex items-center justify-center gap-2"
+                                    disabled
+                                >
+                                    <i class="ri-code-box-line"></i>
+                                    Process & Update Files
+                                </button>
+                            </section>
+
+                            <!-- Processing Results -->
+                            <section class="card p-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                                    <i class="ri-file-list-3-line text-purple-500 mr-2"></i>
+                                    Processing Results
+                                </h3>
+                                <div id="processingResults" class="space-y-4 min-h-[200px] max-h-[600px] overflow-y-auto">
+                                    <div class="text-center text-gray-500 mt-8">
+                                        <i class="ri-file-list-line text-4xl mb-2 block"></i>
+                                        Upload files to start processing
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="tab-pane" id="settings">
+                        <div class="max-w-2xl mx-auto">
+                            <section class="card p-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-6 flex items-center">
+                                    <i class="ri-settings-3-line text-purple-500 mr-2"></i>
+                                    Validation Options
+                                </h3>
+                                
+                                <!-- Validation Settings -->
+                                <div class="space-y-6">
+                                    <!-- CORS Check -->
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <label class="font-medium text-gray-700 block mb-1" for="corsCheck">
+                                                CORS Accessibility
+                                            </label>
+                                            <p class="text-sm text-gray-500">
+                                                Verify if the CDN allows cross-origin requests
+                                            </p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                id="corsCheck" 
+                                                class="sr-only peer"
+                                                checked
+                                            >
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                        </label>
+                                    </div>
+
+                                    <!-- Content Type Check -->
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <label class="font-medium text-gray-700 block mb-1" for="contentTypeCheck">
+                                                Content Type Verification
+                                            </label>
+                                            <p class="text-sm text-gray-500">
+                                                Ensure proper content type headers for JS/CSS files
+                                            </p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                id="contentTypeCheck" 
+                                                class="sr-only peer"
+                                            >
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                        </label>
+                                    </div>
+
+                                    <!-- SSL Check -->
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <label class="font-medium text-gray-700 block mb-1" for="sslCheck">
+                                                SSL Certificate
+                                            </label>
+                                            <p class="text-sm text-gray-500">
+                                                Verify SSL certificate validity
+                                            </p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                id="sslCheck" 
+                                                class="sr-only peer"
+                                            >
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                        </label>
+                                    </div>
+
+                                    <!-- Response Time Check -->
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <label class="font-medium text-gray-700 block mb-1" for="responseTimeCheck">
+                                                Response Time
+                                            </label>
+                                            <p class="text-sm text-gray-500">
+                                                Measure CDN response time
+                                            </p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                id="responseTimeCheck" 
+                                                class="sr-only peer"
+                                            >
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-yellow-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-600"></div>
+                                        </label>
+                                    </div>
+
+                                    <!-- Timeout Setting -->
+                                    <div class="p-4 bg-gray-50 rounded-lg">
+                                        <label class="font-medium text-gray-700 block mb-3" for="timeoutRange">
+                                            Request Timeout
+                                        </label>
+                                        <div class="flex items-center gap-4">
+                                            <input 
+                                                type="range" 
+                                                id="timeoutRange" 
+                                                min="1" 
+                                                max="30" 
+                                                value="5"
+                                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                            >
+                                            <span id="timeoutValue" class="text-sm font-medium text-gray-700 min-w-[3ch]">5s</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm text-gray-500 mt-2">
+                                            <span>1s</span>
+                                            <span>30s</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-12 text-center text-gray-600 fade-in">
+                <p class="flex items-center justify-center gap-2">
+                    <i class="ri-shield-check-line text-green-500"></i>
+                    Built with security and performance in mind
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Custom Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
