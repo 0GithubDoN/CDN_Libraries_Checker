@@ -59,7 +59,7 @@ git clone https://github.com/0GithubDoN/CDN_Libraries_Checker.git
 
 2. Navigate to the project directory:
 ```bash
-cd cdn-checker
+cd CDN_Libraries_Checker
 ```
 
 3. Open the project in your web server of choice (e.g., Apache, Nginx)
