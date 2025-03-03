@@ -2,7 +2,7 @@
 
 A powerful web-based tool for validating, managing, and updating CDN dependencies in your web projects. Built with modern web technologies and designed with user experience in mind.
 
-![CDN Library Manager](assets/images/preview.png)
+![CDN Library Manager](assets/preview.png)
 
 ## 🚀 Features
 
