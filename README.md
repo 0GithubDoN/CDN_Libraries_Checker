@@ -54,7 +54,7 @@ A powerful web-based tool for validating, managing, and updating CDN dependencie
 
 1. Clone the repository:
 ```bash
-git clone (https://github.com/0GithubDoN/CDN_Libraries_Checker.git)
+git clone https://github.com/0GithubDoN/CDN_Libraries_Checker.git
 ```
 
 2. Navigate to the project directory:
